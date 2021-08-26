@@ -1,32 +1,41 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
   },
 
 devServer: {
   static: path.resolve(__dirname, 'public'),
-  
 },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$|jsx/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /node_modules/,
-        query: {
-          cacheDirectory: true,
-          presets: ['react', 'es2015']
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
+        ]
+      },
+      {
+        test: /.*\.(gif|png|jpe?g)$/i,
+        use: {
+          loader: 'file-loader'
         }
       }
-    ]
+    ],
   }
-}
+}   
